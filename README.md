@@ -2,4 +2,4 @@
 # [Link đề cương](https://www.overleaf.com/read/dtzvnmxmnfqp#88e353)
 # [Link Slides](https://onedrive.live.com/edit?id=E2FC1AAC7CE3C502!230&resid=E2FC1AAC7CE3C502!230&ithint=file%2cpptx&authkey=!AG5P8xuzh9XhxPo&wdo=2&cid=e2fc1aac7ce3c502)
 # [Link cuốn](https://www.overleaf.com/read/mfsxxxqwpwpx#37cac6)
-# [Spreadsheet các kết quả chạy thí nghiệm]([https://www.overleaf.com/read/mfsxxxqwpwpx#37cac6](https://docs.google.com/spreadsheets/d/1ORVgN_oaYTlbexAesu7RYf6Z1WHGXnljmwiJthre0eA/edit?usp=sharing))
+# [Spreadsheet các kết quả chạy thí nghiệm](https://docs.google.com/spreadsheets/d/1ORVgN_oaYTlbexAesu7RYf6Z1WHGXnljmwiJthre0eA/edit?usp=sharing)
