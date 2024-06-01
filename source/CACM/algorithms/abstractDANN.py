@@ -1,8 +1,8 @@
 import torch
 import torch.autograd as autograd
 from torch.nn import functional as F
-from algorithms.base_algorithm import PredictionAlgorithm
-from models.networks import MLP
+from CACM.algorithms.base_algorithm import PredictionAlgorithm
+from CACM.models.networks import MLP
 
 class AbstractDANN(PredictionAlgorithm):
     def __init__(self, model, optimizer="Adam", lr=1e-3, weight_decay=0.0, betas=(0.9, 0.999), momentum=0.9, 

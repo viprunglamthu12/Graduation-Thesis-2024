@@ -1,5 +1,5 @@
-from dataloaders import misc
-from dataloaders.fast_data_loader import FastDataLoader, InfiniteDataLoader
+from CACM.dataloaders import misc
+from CACM.dataloaders.fast_data_loader import FastDataLoader, InfiniteDataLoader
 
 
 def get_train_loader(dataset, envs, batch_size, class_balanced=False):

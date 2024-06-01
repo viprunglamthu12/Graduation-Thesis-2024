@@ -1,4 +1,4 @@
-from algorithms.abstractDANN import AbstractDANN
+from CACM.algorithms.abstractDANN import AbstractDANN
 
 class CDANN(AbstractDANN):
     """Conditional DANN"""

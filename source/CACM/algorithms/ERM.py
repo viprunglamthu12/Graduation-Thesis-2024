@@ -1,6 +1,6 @@
 import torch
 from torch.nn import functional as F
-from algorithms.base_algorithm import PredictionAlgorithm
+from CACM.algorithms.base_algorithm import PredictionAlgorithm
 
 class ERM(PredictionAlgorithm):
     def __init__(self, model, optimizer="Adam", lr=1e-3, weight_decay=0.0, betas=(0.9, 0.999), momentum=0.9):

@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from algorithms.utils import mmn_compute
+from CACM.algorithms.utils import mmn_compute
     
 class Regularizer:
     def __init__(

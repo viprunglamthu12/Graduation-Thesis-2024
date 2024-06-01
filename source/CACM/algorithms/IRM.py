@@ -1,6 +1,6 @@
 import torch
 from torch.nn import functional as F
-from algorithms.base_algorithm import PredictionAlgorithm
+from CACM.algorithms.base_algorithm import PredictionAlgorithm
 import torch.autograd as autograd
 
 

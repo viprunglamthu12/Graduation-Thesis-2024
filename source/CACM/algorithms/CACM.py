@@ -1,7 +1,7 @@
 import torch
 from torch.nn import functional as F
-from algorithms.base_algorithm import PredictionAlgorithm
-from algorithms.regulariztion import Regularizer
+from CACM.algorithms.base_algorithm import PredictionAlgorithm
+from CACM.algorithms.regulariztion import Regularizer
 class CACM(PredictionAlgorithm):
     def __init__(
         self,
