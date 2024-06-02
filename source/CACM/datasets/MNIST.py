@@ -4,7 +4,7 @@ from torch.utils.data import TensorDataset
 from torchvision import transforms
 from torchvision.datasets import MNIST
 from torchvision.transforms.functional import rotate
-from datasets.base_dataset import MultipleDomainDataset
+from CACM.datasets.base_dataset import MultipleDomainDataset
 
 # single-attribute Causal
 class MNISTCausalAttribute(MultipleDomainDataset):
