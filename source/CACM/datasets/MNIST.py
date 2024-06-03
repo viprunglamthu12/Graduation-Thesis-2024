@@ -260,7 +260,6 @@ class MNISTCausalIndAttribute(MultipleDomainDataset):
         y = labels.view(-1).long()
         angles = torch.full((y.shape[0],), env_id, dtype=torch.float32)
         a = torch.stack((colors, angles), 1)
-        print(a)
         return TensorDataset(x, y, a)
 
     def color_dataset(self, images, labels, environment):
