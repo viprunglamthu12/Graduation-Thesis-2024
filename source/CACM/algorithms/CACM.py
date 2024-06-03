@@ -143,8 +143,8 @@ class CACM(PredictionAlgorithm):
                 penalty_sel = penalty_sel.item()
                 self.log("penalty_sel", penalty_sel, on_step=False, on_epoch=True, prog_bar=True)
         
-        elif self.graph is not None:
-            pass
+        # elif self.graph is not None:
+        #     pass
         else:
             raise ValueError("No attribute types or graph provided.")
 
