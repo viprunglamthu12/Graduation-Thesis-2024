@@ -1,7 +1,7 @@
 class MultipleDomainDataset:
     N_STEPS = 5001
     CHECKPOINT_FREQ = 100
-    N_WORKERS = 8
+    N_WORKERS = 2
     ENVIRONMENTS = None
     INPUT_SHAPE = None
 
