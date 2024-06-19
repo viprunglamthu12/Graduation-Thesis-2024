@@ -36,11 +36,11 @@ class IRM(PredictionAlgorithm):
 
         all_logits = self.model(x)
         all_logits_idx = 0
-        for i, (x, y, a) in enumerate(train_batch):
-            logits = all_logits[all_logits_idx:all_logits_idx+x.shape[0]]
-            all_logits_idx += x.shape[0]
-            nll += F.cross_entropy(logits, y)
-            penalty += self._irm_penalty(logits, y)
+        for i, data in enumerate(train_batch):
+            logits = all_logits[all_logits_idx:all_logits_idx+data[0].shape[0]]
+            all_logits_idx += data[0].shape[0]
+            nll += F.cross_entropy(logits, data[1])
+            penalty += self._irm_penalty(logits, data[1])
         nll /= len(train_batch)
         penalty /= len(train_batch)
         loss = nll +(penalty_weight * penalty)
@@ -50,7 +50,7 @@ class IRM(PredictionAlgorithm):
             y = torch.cat([y for x, y, _ in train_batch])
         else:
             y = train_batch[1]
-            
+
         acc = (torch.argmax(all_logits, dim=1) == y).float().mean()
 
         metrics = {"train_acc": acc, "train_loss": loss, "nll": nll.item(), "penalty": penalty.item()}
