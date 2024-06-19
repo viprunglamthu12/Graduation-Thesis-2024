@@ -29,9 +29,12 @@ class IRM(PredictionAlgorithm):
         penalty_weight = (self.irm_lambda if self.update_count >= self.irm_anneal_iters else 1.0)
         nll = 0.
         penalty = 0.
-        
-        x = torch.cat([x for x, y, _ in train_batch])
-        
+        if isinstance(train_batch[0], list):
+            x = torch.cat([x for x, y, _ in train_batch])
+            y = torch.cat([y for x, y, _ in train_batch])
+        else:
+            x = train_batch[0]
+            y = train_batch[1]
 
         all_logits = self.model(x)
         all_logits_idx = 0
@@ -46,7 +49,7 @@ class IRM(PredictionAlgorithm):
 
         self.update_count += 1
 
-        y = torch.cat([y for x, y, _ in train_batch])
+        
         acc = (torch.argmax(all_logits, dim=1) == y).float().mean()
 
         metrics = {"train_acc": acc, "train_loss": loss, "nll": nll.item(), "penalty": penalty.item()}
