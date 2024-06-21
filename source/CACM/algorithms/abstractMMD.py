@@ -14,6 +14,7 @@ class AbstractMMD(PredictionAlgorithm):
 
         self.gamma = gamma
         self.mmd_lambda = mmd_lambda
+        self.sequence_classification = sequence_classification
 
     def mmd(self, x, y):
         return mmn_compute(x, y, self.kernel_type, self.gamma)
