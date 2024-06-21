@@ -36,11 +36,11 @@ class IRM(PredictionAlgorithm):
 
         all_logits = self.model(x)
         all_logits_idx = 0
-        for i, data in enumerate(train_batch):
-            logits = all_logits[all_logits_idx:all_logits_idx+data[0].shape[0]]
-            all_logits_idx += data[0].shape[0]
-            nll += F.cross_entropy(logits, data[1])
-            penalty += self._irm_penalty(logits, data[1])
+        for i, (x, y, a) in enumerate(train_batch):
+            logits = all_logits[all_logits_idx:all_logits_idx+x.shape[0]]
+            all_logits_idx += x.shape[0]
+            nll += F.cross_entropy(logits, y)
+            penalty += self._irm_penalty(logits, y)
         nll /= len(train_batch)
         penalty /= len(train_batch)
         loss = nll +(penalty_weight * penalty)
