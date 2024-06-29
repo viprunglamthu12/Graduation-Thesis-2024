@@ -42,7 +42,6 @@ class AbstractMMD(PredictionAlgorithm):
                 correct += (torch.argmax(classifs[i], dim=1)==targets[i]).float().sum().item()
                 total += classifs[i].shape[0]
                 for j in range(i+1, nmb):
-                    print(features[i])
                     penalty += self.mmd(features[i], features[j])
                     
             objective /= nmb
@@ -60,6 +59,7 @@ class AbstractMMD(PredictionAlgorithm):
                 correct += (torch.argmax(classifs, dim=1)==targets).float().sum().item()
                 total += classifs.shape[0]
                 for j in range(i+1, nmb):
+                    print(features[i])
                     penalty += self.mmd(features[i], features[j])
             
             objective /= nmb
