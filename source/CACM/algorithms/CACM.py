@@ -3,8 +3,8 @@ from torch.nn import functional as F
 
 import numpy as np
 
-from dowhy.causal_prediction_selfcode.algorithms.base_algorithm import PredictionAlgorithm
-from dowhy.causal_prediction_selfcode.algorithms.regularization import Regularizer
+from CACM.algorithms.base_algorithm import PredictionAlgorithm
+from CACM.algorithms.regulariztion import Regularizer
 
 
 class CACM(PredictionAlgorithm):
