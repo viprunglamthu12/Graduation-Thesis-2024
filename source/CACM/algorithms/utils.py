@@ -22,6 +22,9 @@ def mmn_compute(x, y, kernel_type, gamma):
         Kxy = gaussian_kernel(x, y, gamma).mean()
         return Kxx + Kyy - 2 * Kxy
     else:
+        if x.dim() > 2:
+            x = x.view(-1, x.size(-1))
+            y = y.view(-1, y.size(-1))
         mean_x = x.mean(0, keepdim=True)
         mean_y = y.mean(0, keepdim=True)
         cent_x = x - mean_x
