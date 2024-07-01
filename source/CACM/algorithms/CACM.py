@@ -207,5 +207,5 @@ class CACM(PredictionAlgorithm):
 
         metrics = {"train_acc": acc, "train_loss": loss}
         self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
-
+        
         return loss
