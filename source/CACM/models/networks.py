@@ -211,3 +211,52 @@ class DistilBertClassifier(DistilBertForSequenceClassification):
             attention_mask=attention_mask,
         )[0]
         return outputs
+    
+
+class WildsIdentity(nn.Module):
+    """An identity layer"""
+    def __init__(self, d):
+        super().__init__()
+        self.in_features = d
+        self.out_features = d
+
+    def forward(self, x):
+        return x
+
+def initialize_densenet121(d_out):
+    model = torchvision.models.densenet121(pretrained=True)
+    d_features = getattr(model, 'classifier').in_features
+    if d_out is None:
+        last_layer = WildsIdentity(d_features)
+        model.d_out = d_features
+    else:
+        last_layer = nn.Linear(d_features, d_out)
+        model.d_out = d_out
+    model.classifier = last_layer
+
+    return model
+
+def initialize_model(d_out, is_featurizer=False):
+    featurize = is_featurizer
+    if featurize:
+        featurizer = initialize_densenet121(d_out=None)
+        classifier = nn.Linear(featurizer.d_out, d_out)
+        model = torch.nn.Sequential(featurizer, classifier)
+    else: 
+        model = initialize_densenet121(d_out=d_out)
+
+    # The `needs_y` attribute specifies whether the model's forward function
+    # needs to take in both (x, y).
+    # If False, Algorithm.process_batch will call model(x).
+    # If True, Algorithm.process_batch() will call model(x, y) during training,
+    # and model(x, None) during eval.
+    if not hasattr(model, 'needs_y'):
+        # Sometimes model is a tuple of (featurizer, classifier)
+        if is_featurizer:
+            for submodel in model:
+                submodel.needs_y = False
+        else:
+            model.needs_y = False
+
+    return model
+
