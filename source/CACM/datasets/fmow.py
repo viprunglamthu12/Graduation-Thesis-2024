@@ -21,7 +21,7 @@ def is_after_year(ts, year):
     ts_year, ts_month, ts_day = parse_timestamp(ts)
     return ts_year >= year
 
-class FMoWDataset(WILDSDataset, MultipleDomainDataset):
+class FMoWDataset(WILDSDataset):
     _dataset_name = 'fmow'
     _versions_dict = {
         '1.2': {
