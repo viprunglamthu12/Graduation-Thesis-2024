@@ -85,12 +85,6 @@ class FMoWDataset(WILDSDataset):
                 split_mask = np.asarray(self.metadata['split'] == split)
                 idxs = idxs[~self.ood_mask & split_mask]
 
-            # if self.oracle_training_set and split == 'train':
-            #     test_mask = np.asarray(self.metadata['split'] == 'test')
-            #     unused_ood_idxs = np.arange(len(self.metadata))[self.ood_mask & ~test_mask]
-            #     subsample_unused_ood_idxs = subsample_idxs(unused_ood_idxs, num=len(idxs)//2, seed=self.seed+2)
-            #     subsample_train_idxs = subsample_idxs(idxs.copy(), num=len(idxs) // 2, seed=self.seed+3)
-            #     idxs = np.concatenate([subsample_unused_ood_idxs, subsample_train_idxs])
             self._split_array[idxs] = self._split_dict[split]
 
         if not use_ood_val:
@@ -117,14 +111,6 @@ class FMoWDataset(WILDSDataset):
         self.metadata['region'] = region_idxs
 
         # make a year column in metadata
-        # year_array = -1 * np.ones(len(self.metadata))
-        # ts = pd.to_datetime(self.metadata['timestamp'])
-        # for year in range(2002, 2018):
-        #     year_mask = np.asarray(ts >= datetime.datetime(year, 1, 1, tzinfo=pytz.UTC)) \
-        #                 & np.asarray(ts < datetime.datetime(year+1, 1, 1, tzinfo=pytz.UTC))
-        #     year_array[year_mask] = year - 2002
-        # self.metadata['year'] = year_array
-        # self._metadata_map['year'] = list(range(2002, 2018))
         year_array = -1 * np.ones(len(self.metadata))
 
         def parse_timestamp_year(ts):
@@ -145,6 +131,14 @@ class FMoWDataset(WILDSDataset):
             'year': CombinatorialGrouper(dataset=self, groupby_fields=['year']),
             'region': CombinatorialGrouper(dataset=self, groupby_fields=['region']),
         }
+        
+        self.input_shape = (3, 224, 224,)
+        self.transform = transforms.Compose([
+            transforms.Resize((224, 224)),
+            transforms.ToTensor(),
+            transforms.Normalize(
+                mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+        ])
 
         super().__init__(root_dir, download, split_scheme)
 
@@ -202,7 +196,9 @@ class FMoWDataset(WILDSDataset):
         all_results_str += f"Worst-group {metric.name}: {all_results[f'{metric.name}_worst_region']:.3f}\n"
 
         return all_results, all_results_str
+    
 
+    
 
 class WILDSEnvironment:
     def __init__(
@@ -213,17 +209,15 @@ class WILDSEnvironment:
         self.name = split_mask
         split_dict = wilds_dataset.split_dict
         mask = split_dict.get(split_mask)
-        # metadata_index = wilds_dataset.metadata_fields.index(metadata_name)
-        #metadata_array = wilds_dataset.metadata_array
-        # subset_indices = torch.where(
-        #     metadata_array[:, metadata_index] == metadata_value)[0]
+
         split_array = wilds_dataset.split_array
         subset_indices = np.where(split_array == mask)[0]
         self.dataset = wilds_dataset
         self.indices = subset_indices
         self.transform = transform
         self.metadata_array = wilds_dataset.metadata_array
-        
+        self.metadata = wilds_dataset.metadata
+        self.y_array = wilds_dataset.y_array[subset_indices]
 
     def __getitem__(self, i):
         x = self.dataset.get_input(self.indices[i])
@@ -238,6 +232,9 @@ class WILDSEnvironment:
 
     def __len__(self):
         return len(self.indices)
+    
+    def eval(self, y_pred, y_true, metadata):
+        return self.dataset.eval(y_pred, y_true, metadata)
 
 class WILDSDatasets(MultipleDomainDataset):
     INPUT_SHAPE = (3, 224, 224)
@@ -262,14 +259,16 @@ class WILDSDatasets(MultipleDomainDataset):
         
         self.input_shape = (3, 224, 224,)
         self.num_classes = dataset.n_classes
+        
+        
+        self.metadata_fields = ['region', 'year', 'y']
+        self.metadata_map = dataset.metadata_map
+        self.metadata_array = dataset.metadata_array
+
 
     def metadata_values(self, wilds_dataset):
-        # metadata_index = wilds_dataset.metadata_fields.index(metadata_name)
-        # metadata_vals = wilds_dataset.metadata_array[:, metadata_index]
-        # return sorted(list(set(metadata_vals.view(-1).tolist())))
         return wilds_dataset.split_dict
     
-
 class WILDSFMoW(WILDSDatasets):
     ENVIRONMENTS = ["2012-2013", "2013-2016", "2016-2018", "2002-2013", "2002-2013"]
     def __init__(self, root, download):
