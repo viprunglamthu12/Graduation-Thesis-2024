@@ -21,7 +21,7 @@ def is_after_year(ts, year):
     ts_year, ts_month, ts_day = parse_timestamp(ts)
     return ts_year >= year
 
-class FMoWDataset(WILDSDataset):
+class FMoWDataset(WILDSDataset, MultipleDomainDataset):
     _dataset_name = 'fmow'
     _versions_dict = {
         '1.2': {
@@ -254,7 +254,7 @@ class WILDSDatasets(MultipleDomainDataset):
                 self.metadata_values(dataset)):
             env_transform = transform
 
-            env_dataset = WILDSEnvironment(dataset,split_mask, env_transform)
+            env_dataset = WILDSEnvironment(dataset, split_mask, env_transform)
             self.datasets.append(env_dataset)
         
         self.input_shape = (3, 224, 224,)
