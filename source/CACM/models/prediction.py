@@ -26,10 +26,7 @@ def predict(model, dataset, batch_size=16):
             # Perform computations on GPU
             outs = model(batch_tensor)
             for out in outs:
-                if out[0].item() > out[1].item():
-                    y_hat.append(0)
-                else:
-                    y_hat.append(1)
+                y_hat.append(out.argmax().item())
             
             pbar.update(len(batch))
             del batch, batch_text, batch_tensor, out

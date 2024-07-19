@@ -72,12 +72,23 @@ class PredictionAlgorithm(pl.LightningModule):
             y = batch[1]
 
         out = self.model(x)
+
         loss = F.cross_entropy(out, y)
         acc = (torch.argmax(out, dim=1) == y).float().mean()
 
         metrics = {"test_acc": acc, "test_loss": loss}
         self.log_dict(metrics, on_step=False, on_epoch=True, prog_bar=True)
     
+    def predict_step(self, batch, batch_idx, dataloader_idx = 0):
+        if isinstance(batch[0], list):
+            x = torch.cat([x for x, y, _ in batch])
+        else:
+            x = batch[0]
+
+        out = self.model(x)  # Get the model's predictions
+        predictions = torch.argmax(out, dim=1)  # Convert the model output to predicted class labels
+        return predictions
+
     def configure_optimizers(self):
         """
         Initialize the optimizer using params passed when initializing PredictionAlgorithm class.
@@ -92,3 +103,4 @@ class PredictionAlgorithm(pl.LightningModule):
             )
 
         return optimizer
+
