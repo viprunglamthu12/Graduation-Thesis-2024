@@ -1,5 +1,5 @@
 # [Kế hoạch làm khóa luận](https://docs.google.com/spreadsheets/d/1_jLevnscT1FAJ63_4840pajgfUOkJunRXPdVGcwen-o/edit#gid=0)
 # [Link đề cương](https://www.overleaf.com/read/dtzvnmxmnfqp#88e353)
-# [Link Slides](https://onedrive.live.com/edit?id=E2FC1AAC7CE3C502!230&resid=E2FC1AAC7CE3C502!230&ithint=file%2cpptx&authkey=!AG5P8xuzh9XhxPo&wdo=2&cid=e2fc1aac7ce3c502)
+# [Link Slides](https://studenthcmusedu-my.sharepoint.com/:p:/g/personal/20120061_student_hcmus_edu_vn/ESx5BKPQUBVLuNlmUXkiRDYBw1nLT6XwIjEy5pKi7Nr9sw?e=pJEjd3)
 # [Link cuốn](https://www.overleaf.com/read/mfsxxxqwpwpx#37cac6)
 # [Spreadsheet các kết quả chạy thí nghiệm](https://docs.google.com/spreadsheets/d/1ORVgN_oaYTlbexAesu7RYf6Z1WHGXnljmwiJthre0eA/edit?usp=sharing)
